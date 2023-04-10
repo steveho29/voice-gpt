@@ -33,14 +33,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.10.0"
-  avatar_glow:
-    dependency: transitive
-    description:
-      name: avatar_glow
-      sha256: "3627f6f97d1f10d3c1996ae108d3488eabaf68c0cf0c3eac7e7c746a3812881d"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.2"
   boolean_selector:
     dependency: transitive
     description:
@@ -265,9 +257,11 @@ packages:
   flutter_chat_ui:
     dependency: "direct main"
     description:
-      path: "../flutter_chat_ui"
-      relative: true
-    source: path
+      path: "."
+      ref: main
+      resolved-ref: d6693732e93e29804e2f5973bdc1247b235f2764
+      url: "https://github.com/steveho29/flutter_chat_ui"
+    source: git
     version: "1.6.6"
   flutter_dotenv:
     dependency: "direct main"
@@ -309,30 +303,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.1"
-  flutter_sound:
-    dependency: transitive
-    description:
-      name: flutter_sound
-      sha256: "090a4694b11ecc744c2010621c4ffc5fe7c3079d304ea014961a72c7b72cfe6c"
-      url: "https://pub.dev"
-    source: hosted
-    version: "9.2.13"
-  flutter_sound_platform_interface:
-    dependency: transitive
-    description:
-      name: flutter_sound_platform_interface
-      sha256: "4537eaeb58a32748c42b621ad6116f7f4c6ee0a8d6ffaa501b165fe1c9df4753"
-      url: "https://pub.dev"
-    source: hosted
-    version: "9.2.13"
-  flutter_sound_web:
-    dependency: transitive
-    description:
-      name: flutter_sound_web
-      sha256: ad4ca92671a1879e1f613e900bbbdb8170b20d57d1e4e6363018fe56b055594f
-      url: "https://pub.dev"
-    source: hosted
-    version: "9.2.13"
   flutter_svg:
     dependency: transitive
     description:
@@ -346,14 +316,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_tts:
-    dependency: transitive
-    description:
-      name: flutter_tts
-      sha256: e91ad17793ad12cca9c3066accf99ceb353bf0355ad06b767176f178b5c428f6
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.6.3"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -399,14 +361,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.0"
-  holding_gesture:
-    dependency: transitive
-    description:
-      name: holding_gesture
-      sha256: "6d12a991c498357f9c8a532656facf97c47858be9a7249d5caaa84707aecc052"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.0"
   html:
     dependency: transitive
     description:
@@ -487,14 +441,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
-  logger:
-    dependency: transitive
-    description:
-      name: logger
-      sha256: db2ff852ed77090ba9f62d3611e4208a3d11dfa35991a81ae724c113fcb3e3f7
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.3.0"
   logging:
     dependency: transitive
     description:
@@ -551,14 +497,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
-  nested:
-    dependency: transitive
-    description:
-      name: nested
-      sha256: "03bac4c528c64c95c722ec99280375a6f2fc708eec17c7b3f07253b626cd2a20"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   package_config:
     dependency: transitive
     description:
@@ -639,54 +577,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.5"
-  pedantic:
-    dependency: transitive
-    description:
-      name: pedantic
-      sha256: "67fc27ed9639506c856c840ccce7594d0bdcd91bc8d53d6e52359449a1d50602"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.11.1"
-  permission_handler:
-    dependency: transitive
-    description:
-      name: permission_handler
-      sha256: "33c6a1253d1f95fd06fa74b65b7ba907ae9811f9d5c1d3150e51417d04b8d6a8"
-      url: "https://pub.dev"
-    source: hosted
-    version: "10.2.0"
-  permission_handler_android:
-    dependency: transitive
-    description:
-      name: permission_handler_android
-      sha256: "8028362b40c4a45298f1cbfccd227c8dd6caf0e27088a69f2ba2ab15464159e2"
-      url: "https://pub.dev"
-    source: hosted
-    version: "10.2.0"
-  permission_handler_apple:
-    dependency: transitive
-    description:
-      name: permission_handler_apple
-      sha256: ee96ac32f5a8e6f80756e25b25b9f8e535816c8e6665a96b6d70681f8c4f7e85
-      url: "https://pub.dev"
-    source: hosted
-    version: "9.0.8"
-  permission_handler_platform_interface:
-    dependency: transitive
-    description:
-      name: permission_handler_platform_interface
-      sha256: "68abbc472002b5e6dfce47fe9898c6b7d8328d58b5d2524f75e277c07a97eb84"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.9.0"
-  permission_handler_windows:
-    dependency: transitive
-    description:
-      name: permission_handler_windows
-      sha256: f67cab14b4328574938ecea2db3475dad7af7ead6afab6338772c5f88963e38b
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.2"
   petitparser:
     dependency: transitive
     description:
@@ -735,14 +625,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.2.4"
-  provider:
-    dependency: transitive
-    description:
-      name: provider
-      sha256: cdbe7530b12ecd9eb455bdaa2fcb8d4dad22e80b8afb4798b41479d5ce26847f
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.0.5"
   pub_semver:
     dependency: transitive
     description:
@@ -759,14 +641,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.2"
-  recase:
-    dependency: transitive
-    description:
-      name: recase
-      sha256: e4eb4ec2dcdee52dcf99cb4ceabaffc631d7424ee55e56f280bc039737f89213
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.1.0"
   scroll_to_index:
     dependency: transitive
     description:
@@ -820,30 +694,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.1"
-  speech_to_text:
-    dependency: transitive
-    description:
-      name: speech_to_text
-      sha256: ff8fbd31d039bdbac6c7ec9f0516d37df2cbea62c45198326d3b64034e6fb920
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.1.1"
-  speech_to_text_macos:
-    dependency: transitive
-    description:
-      name: speech_to_text_macos
-      sha256: "6b5575e5a8346be1779838b0a482c259474965b5943668830b479147a75b5bfc"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.2"
-  speech_to_text_platform_interface:
-    dependency: transitive
-    description:
-      name: speech_to_text_platform_interface
-      sha256: "13d90215a7554b9a8c1ce47c0a1739af8eacd2cf196ca66351e54dfd2172746d"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.1"
   stack_trace:
     dependency: transitive
     description:
@@ -900,38 +750,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.16"
-  text_to_speech:
-    dependency: transitive
-    description:
-      name: text_to_speech
-      sha256: f9adeb82bf0c912fd7f0ce656b1283e49b0869f9247bf865859dcf0186ed32f3
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.3"
-  text_to_speech_macos:
-    dependency: transitive
-    description:
-      name: text_to_speech_macos
-      sha256: "11d1b7d4eff579743b04d371e86d17bebd599f7d998b9fa4cf07a5821cda3b6d"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.1"
-  text_to_speech_platform_interface:
-    dependency: transitive
-    description:
-      name: text_to_speech_platform_interface
-      sha256: "9d637f0ae36e296f42a0e555bd65ba4c64a28a7c26a2752fdae62f6d78b6c2d0"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.3"
-  text_to_speech_web:
-    dependency: transitive
-    description:
-      name: text_to_speech_web
-      sha256: "47d006c0a377c9eb3f6bcca4d92b3ece2c67f5eb31b9416727cc81b92c36d6d1"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.2"
   timing:
     dependency: transitive
     description:

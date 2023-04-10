@@ -12,10 +12,9 @@ dependencies:
     sdk: flutter
   # flutter_chat_ui: ^1.6.6
   flutter_chat_ui:
-    path: ../flutter_chat_ui
-    # git:
-    #   url: https://github.com/flyerhq/flutter_chat_ui.git
-    #   ref: main 
+    git:
+      url: https://github.com/steveho29/flutter_chat_ui
+      ref: main 
   flutter_dotenv: ^5.0.2
   get_it: ^7.2.0
   google_fonts: ^4.0.3
