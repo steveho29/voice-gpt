@@ -1,17 +1,17 @@
 import "dart:convert";
 import 'package:path/path.dart';
 import "dart:io";
+import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
 
-// import "package:file_picker/file_picker.dart";
 import "package:flag/flag.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart" show rootBundle;
 import "package:flutter_chat_types/flutter_chat_types.dart" as types;
 import "package:flutter_chat_ui/flutter_chat_ui.dart";
 import "package:flutter_dotenv/flutter_dotenv.dart";
-import "package:get_it/get_it.dart";
 import "package:http/http.dart" as http;
 import "package:intl/date_symbol_data_local.dart";
 import "package:path_provider/path_provider.dart";
@@ -41,12 +41,78 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   final List<types.Message> _messages = [];
   bool isWaitingForGPT = false;
+  bool _isAutoSpeak = false;
+  FlutterTts flutterTts = FlutterTts();
+  ChatTheme theme = const DarkChatTheme();
+  bool isVn = false;
   final _user = const types.User(id: "user");
   final _gpt = const types.User(
       id: "gpt",
       firstName: 'GPT',
       imageUrl:
           "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/2048px-ChatGPT_logo.svg.png");
+
+  @override
+  void initState() {
+    super.initState();
+    _loadMessages();
+    _askForMicrophonePermission();
+  }
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          backgroundColor: theme.inputBackgroundColor,
+          leading: IconButton(
+            icon: Icon(Icons.delete_forever_rounded,
+                color: theme.errorColor, size: 40),
+            onPressed: _clearMessages,
+          ),
+          actions: [
+            GestureDetector(
+                onTap: () {
+                  setState(() {
+                    isVn = !isVn;
+                  });
+                  // chatController.addChat();
+                },
+                child: Flag.fromString(
+                  isVn ? 'vn' : 'us',
+                  width: 50,
+                )),
+            const SizedBox(width: 16),
+          ],
+          centerTitle: true,
+          titleSpacing: 0,
+        ),
+        body: Chat(
+          messages: _messages,
+          // onAttachmentPressed: _handleAttachmentPressed,
+          inputOptions: const InputOptions(
+              sendButtonVisibilityMode: SendButtonVisibilityMode.always),
+          theme: theme,
+          onMessageTap: _handleMessageTap,
+          onPreviewDataFetched: _handlePreviewDataFetched,
+          onSendPressed: _handleSendPressed,
+          showUserAvatars: true,
+          showUserNames: true,
+          user: _user,
+          l10n: isVn ? const ChatL10nVi() : const ChatL10nEn(),
+          typingIndicatorOptions: TypingIndicatorOptions(
+              typingUsers: isWaitingForGPT ? [_gpt] : []),
+          isAutoSpeak: _isAutoSpeak,
+          onIsAutoSpeak: (value) {
+            setState(() {
+              _isAutoSpeak = value;
+            });
+          },
+          onSpeaking: onSpeaking,
+        ),
+      );
+
+  Future<void> _askForMicrophonePermission() async {
+    await Permission.microphone.request().isGranted;
+  }
 
   Future<String> askGPT(String msg) async {
     final url = Uri.parse("https://api.openai.com/v1/completions");
@@ -77,62 +143,20 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _loadMessages();
+  Future onSpeaking(int index, bool isSpeaking, String text) async {
+    if (isSpeaking) {
+      await flutterTts.speak(text);
+    } else {
+      await flutterTts.stop();
+    }
   }
 
-  ChatTheme theme = const DarkChatTheme();
-  bool isVn = false;
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          backgroundColor: theme.inputBackgroundColor,
-          leading: IconButton(
-            icon: Icon(Icons.delete_forever_rounded,
-                color: theme.errorColor, size: 40),
-            onPressed: _clearMessages,
-          ),
-          actions: [
-            GestureDetector(
-                onTap: () {
-                  setState(() {
-                    isVn = !isVn;
-                  });
-                  // chatController.addChat();
-                },
-                child: Flag.fromString(
-                  isVn ? 'vn' : 'us',
-                  width: 50,
-                )),
-            const SizedBox(width: 16),
-          ],
-          centerTitle: true,
-          titleSpacing: 0,
-        ),
-        body: Chat(
-          messages: _messages,
-          // onAttachmentPressed: _handleAttachmentPressed,
-          inputOptions: InputOptions(
-              sendButtonVisibilityMode: SendButtonVisibilityMode.always),
-          theme: theme,
-          onMessageTap: _handleMessageTap,
-          onPreviewDataFetched: _handlePreviewDataFetched,
-          onSendPressed: _handleSendPressed,
-          showUserAvatars: true,
-          showUserNames: true,
-          user: _user,
-          l10n: isVn ? const ChatL10nVi() : const ChatL10nEn(),
-          typingIndicatorOptions: TypingIndicatorOptions(
-              typingUsers: isWaitingForGPT ? [_gpt] : []),
-        ),
-      );
-
-  void _addMessage(types.Message message) {
+  void _addMessage(types.TextMessage message, [bool isGPT = false]) {
     setState(() {
       _messages.insert(0, message);
     });
+
+    if (isGPT && _isAutoSpeak) flutterTts.speak(message.text);
   }
 
   void _addMessageReversed(types.Message message) {
@@ -225,7 +249,7 @@ class _ChatPageState extends State<ChatPage> {
       isWaitingForGPT = false;
     });
 
-    _addMessage(answerMessage);
+    _addMessage(answerMessage, true);
     _saveMessages();
   }
 
@@ -247,9 +271,11 @@ class _ChatPageState extends State<ChatPage> {
     var db = await databaseFactoryIo.openDatabase(dbPath);
     var store = StoreRef.main();
     var chat = await store.record('chat').get(db);
-    var messages = jsonDecode(chat as String);
-    for (var msg in messages) {
-      _addMessageReversed(types.TextMessage.fromJson(msg));
+    if (chat != null) {
+      var messages = jsonDecode(chat as String);
+      for (var msg in messages) {
+        _addMessageReversed(types.TextMessage.fromJson(msg));
+      }
     }
     await db.close();
   }
